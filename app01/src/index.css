@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  padding:5px;
+  background-color: #ff00ff;
+}
+
+.banner{
+  padding:8px;
+  background-color: #0f2f0f;
+  color: #ffffff;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+section{
+  padding:8px;
+  margin-top: 5px;
+  background-color: #afafaf;
+}
