@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import QuantityCounter from './components/QuantityCounter';
 import FriendsList from './components/FriendsList';
+import Header from './components/Header';
 
 class App extends Component {
   constructor(props) {
@@ -13,9 +14,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <header className='banner'>
-          <h3>{this.state.title}</h3>
-        </header>
+        <Header title={this.state.title} />
         <section>
           <QuantityCounter />
           <QuantityCounter initValue="1" />
@@ -24,7 +23,6 @@ class App extends Component {
         </section>
         <FriendsList />
       </div>
-
     );
   }
 }
