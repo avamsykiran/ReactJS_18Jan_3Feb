@@ -184,8 +184,33 @@ ReactJS
 
         as functions are assignable resources in JS, a parent component can pass its function
         to the child component via 'props'. The child componet can call that fucntion in
-        resposne to any event that occurs in the child.
+        response to any event that occurs in the child.
+
+    Shadow DOM / Virtual DOM
+
+        is a temprary virtual copy of the actual dom maintiend alongside the 
+        original dom of the browser.
+
+        modifing actual dom needs a lot of process overhaed as it is
+        immidiatly rendered on the screen. But the virtual dom is decoupled
+        with the actual UI and it is a mere Tree datastructure. Hence
+        altering virtual dom or regenrating virtual dom is more easier and
+        less process overloading.
+
+        Thus the 'render()' method is effected on the virtual dom first.
+        And the virutal dom is super-imposed on the actual dom and the
+        difference are identifed and only the differential areas are altetered
+        on the actual dom.
+
+        React offers an attribute called 'key' usign which each node can be identified
+        uniquly for comparision.
+
+
+    Assignment
+
+        Develop a CRUD react SPA for AddressBook.
 
     Working with Forms in React
+
 
         

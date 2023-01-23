@@ -1,4 +1,6 @@
 import { Component } from 'react';
+import TxnRow from './TxnRow';
+import StatementSummary from './StatementSummary';
 
 class Statement extends Component {
     constructor(props) {
@@ -13,7 +15,20 @@ class Statement extends Component {
         };
     }
 
-    totalOf = (txns, type) => (txns.filter(t => t.type === type).map(t => t.amount).reduce((a1, a2) => a1 + a2));
+    totalOf = (txns, type) => {
+        let total = 0;
+        if (txns && txns.length > 0) {
+            let filteredTxns = txns.filter(t => t.type === type);
+            if (filteredTxns && filteredTxns.length > 0) {
+                total = filteredTxns.map(t => t.amount).reduce((a1, a2) => a1 + a2);
+            }
+        }
+        return total;
+    };
+
+    deleteById = id => {
+        this.setState({ txns: this.state.txns.filter(t => t.id != id) });
+    }
 
     render() {
 
@@ -34,31 +49,23 @@ class Statement extends Component {
                             <th>Header</th>
                             <th>Credit</th>
                             <th>Debit</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            txns.map(t => (
+                            txns && txns.length > 0 ?
+                                txns.map(txn => (
+                                    <TxnRow key={txn.id} txn={txn} deleteById={this.deleteById} />
+                                )) :
                                 <tr>
-                                    <td className='text-end'>{t.id}</td>
-                                    <td>{t.header}</td>
-                                    <td className='text-end'> {(t.type === 'CREDIT') && t.amount} </td>
-                                    <td className='text-end'> {(t.type === 'DEBIT') && t.amount} </td>
+                                    <td colSpan="4">
+                                        <strong>No Transactions Recorded. Start by adding one.</strong>
+                                    </td>
                                 </tr>
-                            ))
                         }
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th colSpan="2">Totals</th>
-                            <th className='text-end'>{totalCredit}</th>
-                            <th className='text-end'>{totalDebit}</th>
-                        </tr>
-                        <tr>
-                            <th colSpan="3">Balance</th>
-                            <th className='text-end'>{balance}</th>
-                        </tr>
-                    </tfoot>
+                    <StatementSummary tc={totalCredit} td={totalDebit} bal={balance} />
                 </table>
             </div>
         );
