@@ -205,7 +205,6 @@ ReactJS
         React offers an attribute called 'key' usign which each node can be identified
         uniquly for comparision.
 
-
     Assignment
 
         Develop a CRUD react SPA for AddressBook.
