@@ -28,10 +28,22 @@ class Statement extends Component {
     };
 
     add = txn => {
-        let maxId = this.state.txns.length===0 ? 0 : 
-            this.state.txns.map(t => t.id).reduce((id1,id2) => Math.max(id1,id2));
-        txn.id = maxId+1;
-        this.setState({txns: [...this.state.txns,txn] });
+        let maxId = this.state.txns.length === 0 ? 0 :
+            this.state.txns.map(t => t.id).reduce((id1, id2) => Math.max(id1, id2));
+        txn.id = maxId + 1;
+        this.setState({ txns: [...this.state.txns, txn] });
+    }
+
+    update = txn => {
+        this.setState({ txns: this.state.txns.map(t => t.id != txn.id ? t : { ...txn, isEditing: undefined }) });
+    }
+
+    markEditable = id => {
+        this.setState({ txns: this.state.txns.map(t => t.id != id ? t : { ...t, isEditing: true }) });
+    }
+
+    unmarkEditable = id => {
+        this.setState({ txns: this.state.txns.map(t => t.id != id ? t : { ...t, isEditing: undefined }) });
     }
 
     deleteById = id => {
@@ -49,7 +61,7 @@ class Statement extends Component {
         return (
             <div className='col-sm-10 p-2 mx-auto'>
                 <h4>Statement </h4>
-                
+
                 <div className='row p-2 border-bottom border-danger fw-bold'>
                     <div className='col-sm-2'>TxnId</div>
                     <div className='col'>Header</div>
@@ -61,7 +73,11 @@ class Statement extends Component {
                 {
                     txns && txns.length > 0 ?
                         txns.map(txn => (
-                            <TxnRow key={txn.id} txn={txn} deleteById={this.deleteById} />
+                            txn.isEditing ?
+                                <TxnForm key={txn.id} txn={txn}
+                                    save={this.update} cancel={this.unmarkEditable} /> :
+                                <TxnRow key={txn.id} txn={txn}
+                                    deleteById={this.deleteById} edit={this.markEditable} />
                         )) :
                         <div className='row'>
                             <div className='col text-center'>
