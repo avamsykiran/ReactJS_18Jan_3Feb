@@ -2,6 +2,8 @@ import { Component } from 'react';
 import QuantityCounter from './components/QuantityCounter';
 import FriendsList from './components/FriendsList';
 import Header from './components/Header';
+import LapCounter from './components/LapCounter';
+import LapCounterFn from './components/LapCounterFn';
 
 class App extends Component {
   constructor(props) {
@@ -22,6 +24,12 @@ class App extends Component {
           <QuantityCounter initValue="100" />
         </section>
         <FriendsList />
+        <section>
+          <LapCounter />
+        </section>
+        <section>
+          <LapCounterFn />
+        </section>
       </div>
     );
   }

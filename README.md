@@ -211,5 +211,75 @@ ReactJS
 
     Working with Forms in React
 
+        Controlled Forms                        UnControlled Forms
 
-        
+        The form element is                     the form element is represented by 'ref' s.
+        boudn to a state property,              the data from the ref's is collected into the 
+        and we will have only one               component at a specificmostly at form-submittion.
+        source of truth.
+                                                <input type="text" ref={tb1} />
+
+                                                let val = this.refs.tb1.value;
+
+    Component Life Cycle
+
+        React.Component
+                render()
+                componentDidMount()
+                componentDidUpdate()
+                componentWillUnMount()
+
+        constructor()
+            |
+            |
+          render()
+            |
+            |
+        componentDidMount()
+            |
+            |
+            -------------------------------------------------
+            | no action occurs until setState() is invoked  | <-------------|
+            -------------------------------------------------               |
+                        |                                                   |
+                        |                                                   |
+                        render()                                            |
+                        |                                                   |
+                        |                                                   |
+                        componentDidUpdate() ------------------------------>|
+
+
+    React Hooks
+
+        are special function offered by reactjs to make
+        funtional components on-par to class components
+
+        the hooks are expected to be called on the top-lines of the fucntional component.
+
+        useState            accepts an intial state valeu and returns a getter and a setter.
+
+                            let [x,setX] = useState(0);
+
+        useEffect           is sued to handle sideEffects and is equivalent to the
+                            componentDidMount and componentDidUpdate methods.
+
+                            accepts a callBack and an array.
+
+                            useEffect(()=> { /*...*/ },[])
+                                if the array is empty, then the callBack is equal to componentDidMount().
+                                means that the callBack execute only once after the first render.
+
+                            useEffect(()=> { /*...*/ })
+                                if the array is undefiend, then the callBack is equal to componentDidUpdate(),
+                                means that the callBack execute once after each render.
+
+                            useEffect(()=> { /*...*/ },[x,y])
+                                if the array is defiend and is not empty, then the callBack is equal to componentDidUpdate() with dependencies,
+                                means that the callBack execute once after each render only when the 
+                                state variables x or y have been modified.
+
+                            
+
+
+
+
