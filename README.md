@@ -278,6 +278,211 @@ ReactJS
                                 means that the callBack execute once after each render only when the 
                                 state variables x or y have been modified.
 
+State Management using Redux
+--------------------------------------------------------------------------------
+
+    Redux offers Centralized State Management.
+
+        this potentially avoids teh components to manage or share data and that increases
+        the isolation of the components which inturn makes the app more maintainable and dynamic.
+
+        npm install redux react-redux --save
+
+        redux
+            store           is a place where the entire state of the app is maintained.
+                            one react app will have one and only store.
+                            'createStore' method from 'redux' moduel sued to create a store.
+
+                            const myStore = createStore(myReducer);
+
+            reducer         is a pure javascript function that has
+                                oldState,action as paramaeters and
+                                modifiedState is returned
+
+                            const myReducer = (oldState,action) => {
+                                /*operation on initialState as per the given action */
+
+                                return modifedState;
+                            };
+
+            action          is a json object having payload and type as properties.
+                            'type' indicates what operation has to be done on the state
+                            'payload' hold the data needed to execute the operation.
+
+                            { type:'DELETE',empId:101}
+                            { type:'ADD', emp:{empId:110,name:'Vamsy',sal:45000}}
+                            { type:'UPDATE',emp:{empId:110,name:'Vamsy Kiran',sal:85000}}
+
+            dispatch        is a in-built function from 'redux' module used
+                            by a component to send action to the reducer.
+
+                            let addAction = { type:'ADD', emp:{empId:110,name:'Vamsy',sal:45000}};
+                            dispatch(addAction);
+                            
+        react-redux
+            Provider            is a component from react-reduc used to wrap the store
+                                on our top-level component.
+
+                                root.render(
+                                    <React.StrictMode>
+                                        <Provider store={myStore}> 
+                                            <App />
+                                        </Provider>
+                                    </React.StrictMode>
+                                );
+
+            useSelector hook    is used to retrive data from store into a component.
+
+                useSelector( globalState => { /*retrive what part of the state we need*/ });
+
+            useDispatch hook    is used to inject dispatch method and invoke it to launch an action.
+
+               const dispatch = useDispatch();
+
+            store  →-----------------------------------------------------
+            ↑                                          |               |
+            |                                          | state         | state
+            |                                          ↓               ↓ 
+            |                                          | useSelector   | useSelector
+            |                                          | extract       | extract
+            |                                          | requried      | required 
+            |                                          | data from     | data from
+            |                                          | state         |
+            |                                          ↓               ↓ 
+            |                                      Component1      Component2
+            |                                          |               |
+            |                                          | useDispatch   | useDispatch
+            | modified state                           | gives         | gives
+            |                                          | dispatch      | dispatch
+            |                                          |               |
+            |←-----reducer ←-------- dispatch(action)-←|               |
+                           ←-------- dispatch(action)-----------------←|  
+
+json-server
+----------------------------------------------------------------------------------------------
+    is a tool used to generate fake rest-api just for learning purpose.
+
+    depends on a .json file for data and creates rest-api to perorm CRUD operations on that data.
+
+    md rest-api
+    cd rest-api
+    npm init -y
+    npm install json-server --save
+
+    rest-api/package.json
+        |-scripts
+            "start":"json-server --port 7777 --watch ./data.json"
+
+    rest-api/data.json
+        add hypothetical data.
+
+    npm start
+
+axios 
+------------------------------------------------------------------------------
+
+    mpm install axios --save
+    
+    axios offers method to send request to a rest-api
+
+        axios.
+                get("url")
+                post("url",{json:Object})
+                put("url",{json:Object})
+                delete("url")
+
+    each of these method returbn a Promsie. 
+    a Promsie object has then(toReciveData) and a catch(receiveError)
+
+redux-thunk 
+------------------------------------------------------------------------------
+
+    redux-thunk is a thunk library used to apply any asynchronous middleware operation
+    in redux state management.
+
+    thunk?      is a function that returns another function.
+
+    in redux-thunk, action can be an object or action can be a function.
+
+    
+            store  →-----------------------------------------------------
+            ↑                                          |               |
+            |                                          | state         | state
+            |                                          ↓               ↓ 
+            |                                          | useSelector   | useSelector
+            |                                          | extract       | extract
+            |                                          | requried      | required 
+            |                                          | data from     | data from
+            |                                          | state         |
+            |                                          ↓               ↓ 
+            |                                      Component1      Component2
+            |                                          |               |
+            |                                          | useDispatch   | useDispatch
+            | modified state                           | gives         | gives
+            |                                          | dispatch      | dispatch
+            |                                          |               |
+            |                |←-- dispatch(actionObj)-←|               |
+            |←-----reducer ←-|               dispatch(actionFunction)-←|
+                             |                              |
+                             |                              |
+                             |                             |---------------------------------|
+                             |←-- dispatch(waitActionObj)-←|  1. inform the comp to wait     |
+                             |                             |  2. raise a axios req           |
+                             |←-- dispatch(dataActionObj)-←|  3. recieve data                | 
+                             |                             |         or                      |
+                             |←-- dispatch(errActionObj)--←|    receive error                |
+                                                           |---------------------------------|
+
+    React Routing
+    ------------------------------------------------------------------------
+
+        npm install --save react-router react-router-dom
+
+            react-router-dom v5
+
+                    <Link to="targetPath"> Link Text </Link>
+
+                    <BrowserRouter>
+                        <Component1 />
+                        <Component2 />  //will appear as common page layout
+
+                        <Route path="/home" component="C4" />
+                        <Route path="/about" component="C5" />
+                        <Route path="/contact" component="C6" />
+
+                    </BrowserRouter>
+
+                    <BrowserRouter>
+                        <Component1 />
+                        <Component2 />  //will appear as common page layout
+
+                        <Switch>
+                            <Route path="/" exact component="C3" />
+                            <Route path="/home" component="C4" />
+                            <Route path="/about" component="C5" />
+                            <Route path="/contact" component="C6" />
+                        </Switch>
+                    </BrowserRouter>
+                    
+                    <Redirect to="targetUrl" />
+
+    react-router-dom v6
+
+                    <Link to="targetPath"> Link Text </Link>
+
+                    <BrowserRouter>
+                        <Component1 />
+                        <Component2 />  //will appear as common page layout
+
+                        <Routes>
+                            <Route path="/" element={<C3 />} />
+                            <Route path="/home" element={<C4 />} />
+                            <Route path="/about" element={<C5 />} />
+                            <Route path="/contact" element={<C6 />} />
+                        </Routes>
+                    </BrowserRouter>
+                    
+                    <Redirect to="targetUrl" />    
                             
 
 
