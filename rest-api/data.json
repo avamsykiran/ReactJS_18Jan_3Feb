@@ -1,0 +1,10 @@
+{
+  "txns": [
+    {
+      "id": 1,
+      "header": "Salary",
+      "type": "CREDIT",
+      "amount": 56790
+    }
+  ]
+}

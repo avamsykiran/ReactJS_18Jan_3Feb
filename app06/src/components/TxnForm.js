@@ -1,4 +1,5 @@
-import { createAddTxnAction, createUpdateTxnAction, createUnMarkTxnEditableAction } from '../state/txnReducer';
+import { createUnMarkTxnEditableAction } from '../state/txnReducer';
+import { createAddTxnActionThunk,createUpdateTxnActionThunk} from '../thunks/txnThunks';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -16,7 +17,7 @@ const TxnForm = ({ txn }) => {
     const formSubmitted = event => {
         event.preventDefault();
         let txn = { id, header, type, amount };
-        dispatch(isEditing ? createUpdateTxnAction(txn) : createAddTxnAction(txn));
+        dispatch(isEditing ? createUpdateTxnActionThunk(txn) : createAddTxnActionThunk(txn));
         setId(0);
         setHeader('');
         setType('CREDIT');

@@ -1,4 +1,8 @@
-import { useSelector } from 'react-redux';
+import { Fragment, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { createLoadTxnsActionThunk } from '../thunks/txnThunks';
+
 import TxnRow from './TxnRow';
 import StatementSummary from './StatementSummary';
 import TxnForm from './TxnForm';
@@ -6,6 +10,12 @@ import TxnForm from './TxnForm';
 const Statement = (props) => {
 
     let txns = useSelector(globalState => globalState.txns);
+    let errMsg = useSelector(globalState => globalState.errMsg);
+    let shallWait = useSelector(globalState => globalState.shallWait);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => dispatch(createLoadTxnsActionThunk()), []);
 
     return (
         <div className='col-sm-10 p-2 mx-auto'>
@@ -19,20 +29,43 @@ const Statement = (props) => {
                 <div className='col-sm-2'>Action</div>
             </div>
             <TxnForm />
+
             {
-                txns && txns.length > 0 ?
-                    txns.map(txn => (
-                        txn.isEditing ?
-                            <TxnForm key={txn.id} txn={txn} /> :
-                            <TxnRow key={txn.id} txn={txn} />
-                    )) :
-                    <div className='row'>
-                        <div className='col text-center'>
-                            No Transactions Recorded. Start by adding one.
-                        </div>
+                shallWait && (
+                    <div className='alert alert-info p-2 fw-bold'>
+                        Please wait while refershing data...
                     </div>
+                )
             }
-            <StatementSummary />
+
+            {
+                errMsg && (
+                    <div className='alert alert-danger p-2 fw-bold'>
+                        {errMsg}
+                    </div>
+                )
+            }
+
+            {
+                txns && (
+                    <Fragment>
+                        {
+                            txns.length > 0 ?
+                                txns.map(txn => (
+                                    txn.isEditing ?
+                                        <TxnForm key={txn.id} txn={txn} /> :
+                                        <TxnRow key={txn.id} txn={txn} />
+                                )) :
+                                <div className='row'>
+                                    <div className='col text-center'>
+                                        No Transactions Recorded. Start by adding one.
+                                    </div>
+                                </div>
+                        }
+                        <StatementSummary />
+                    </Fragment>
+                )
+            }
         </div>
     );
 }

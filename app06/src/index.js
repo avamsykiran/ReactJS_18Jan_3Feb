@@ -5,14 +5,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import './index.css';
 
-import { createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import txnReducer from './state/txnReducer';
+import thunk from 'redux-thunk';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const budgetStore = createStore(txnReducer);
+const budgetStore = createStore(txnReducer,applyMiddleware(thunk));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

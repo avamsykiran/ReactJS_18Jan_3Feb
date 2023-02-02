@@ -1,9 +1,9 @@
 //action types
-export const ADD_TXN = 'add txn';
-export const UPD_TXN = 'update txn';
-export const DEL_TXN = 'delete txn';
-export const MARK_TXN_EDITABLE = 'mark txn editable';
-export const UNMARK_TXN_EDITABLE = 'unmark txn editable';
+const ADD_TXN = 'add txn';
+const UPD_TXN = 'update txn';
+const DEL_TXN = 'delete txn';
+const MARK_TXN_EDITABLE = 'mark txn editable';
+const UNMARK_TXN_EDITABLE = 'unmark txn editable';
 
 //action creators
 export const createAddTxnAction = txn => ({ type: ADD_TXN, txn });
@@ -47,10 +47,10 @@ const txnReducer = (oldState = initState(), action) => {
             txns = txns.filter(t => t.id != action.id);
             break;
         case MARK_TXN_EDITABLE:
-            txns.map(t => t.id == action.id ? { ...t, isEditing: true } : t);
+            txns = txns.map(t => t.id == action.id ? { ...t, isEditing: true } : t);
             break;
         case UNMARK_TXN_EDITABLE:
-            txns.map(t => t.id == action.id ? { ...t, isEditing: undefined } : t);
+            txns = txns.map(t => t.id == action.id ? { ...t, isEditing: undefined } : t);
             break;
     }
 

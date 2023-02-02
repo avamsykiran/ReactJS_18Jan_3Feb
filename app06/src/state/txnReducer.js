@@ -1,25 +1,16 @@
 //action types
-const ADD_TXN = 'add txn';
-const UPD_TXN = 'update txn';
-const DEL_TXN = 'delete txn';
+const WAIT = 'wait';
+const ERR = 'error';
+const REFRESH = 'refresh';
 const MARK_TXN_EDITABLE = 'mark txn editable';
 const UNMARK_TXN_EDITABLE = 'unmark txn editable';
 
 //action creators
-export const createAddTxnAction = txn => ({ type: ADD_TXN, txn });
-export const createUpdateTxnAction = txn => ({ type: UPD_TXN, txn });
-export const createDeleteTxnAction = id => ({ type: DEL_TXN, id });
+export const createWaitAction = () => ({ type: WAIT });
+export const createErrAction = errMsg => ({ type: ERR, errMsg });
+export const createRefreshAction = txns => ({ type: REFRESH, txns });
 export const createMarkTxnEditableAction = id => ({ type: MARK_TXN_EDITABLE, id });
 export const createUnMarkTxnEditableAction = id => ({ type: UNMARK_TXN_EDITABLE, id });
-
-const initState = () => ({
-    txns: [
-        { id: 1, header: 'Salary', type: 'CREDIT', amount: 45000 },
-        { id: 2, header: 'Rent', type: 'DEBIT', amount: 5000 },
-        { id: 3, header: 'Fuel', type: 'DEBIT', amount: 1000 },
-        { id: 4, header: 'Mobile Recharge', type: 'DEBIT', amount: 800 }
-    ]
-});
 
 const totalOf = (txns, type) => {
     let total = 0;
@@ -32,19 +23,22 @@ const totalOf = (txns, type) => {
     return total;
 };
 
-const txnReducer = (oldState = initState(), action) => {
+const txnReducer = (oldState = {txns:undefined,shallWait:false,errMsg:undefined}, action) => {
 
-    let txns = oldState.txns;
+    let { txns, shallWait, errMsg } = oldState;
 
     switch (action.type) {
-        case ADD_TXN: txns =
-            [...txns, action.txn];
+        case WAIT:
+            shallWait=true;
+            errMsg=undefined;
             break;
-        case UPD_TXN:
-            txns = txns.map(t => t.id == action.txn.id ? { ...action.txn, isEditing: undefined } : t);
+        case REFRESH:
+            shallWait=false;
+            txns = action.txns;
             break;
-        case DEL_TXN:
-            txns = txns.filter(t => t.id != action.id);
+        case ERR:
+            shallWait=false;
+            errMsg = action.errMsg;
             break;
         case MARK_TXN_EDITABLE:
             txns = txns.map(t => t.id == action.id ? { ...t, isEditing: true } : t);
@@ -58,7 +52,7 @@ const txnReducer = (oldState = initState(), action) => {
     let totalCredit = totalOf(txns, 'CREDIT');
     let balance = totalCredit - totalDebit;
 
-    return { txns, totalCredit, totalDebit, balance }; //modifiedState
+    return { txns, totalCredit, totalDebit, balance, shallWait,errMsg }; //modifiedState
 };
 
 export default txnReducer;

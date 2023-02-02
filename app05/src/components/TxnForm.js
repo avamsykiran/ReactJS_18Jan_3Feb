@@ -1,16 +1,22 @@
+import { createAddTxnAction, createUpdateTxnAction, createUnMarkTxnEditableAction } from '../state/txnReducer';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-const TxnForm = ({ txn, save, cancel }) => {
+const TxnForm = ({ txn }) => {
 
     let [id, setId] = useState(txn ? txn.id : 0);
     let [header, setHeader] = useState(txn ? txn.header : '');
     let [type, setType] = useState(txn ? txn.type : 'CREDIT');
     let [amount, setAmount] = useState(txn ? txn.amount : 0);
-    let isEditing = txn ? txn.isEditing:undefined;
+    let isEditing = txn ? txn.isEditing : undefined;
+
+    const dispatch = useDispatch();
+    const cancelAction = createUnMarkTxnEditableAction(id);
 
     const formSubmitted = event => {
         event.preventDefault();
-        save({ id, header, type, amount });
+        let txn = { id, header, type, amount };
+        dispatch(isEditing ? createUpdateTxnAction(txn) : createAddTxnAction(txn));
         setId(0);
         setHeader('');
         setType('CREDIT');
@@ -43,7 +49,7 @@ const TxnForm = ({ txn, save, cancel }) => {
                     <div className='col-sm-2'>
                         <button className="btn btn-sm btn-secondary me-1"> UPDATE </button>
                         <button type="button" className="btn btn-sm btn-danger"
-                            onClick={e => cancel(id)}> CANCEL </button> 
+                            onClick={e => dispatch(cancelAction)}> CANCEL </button>
                     </div>
             }
 

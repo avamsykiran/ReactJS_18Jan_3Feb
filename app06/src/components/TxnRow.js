@@ -1,11 +1,12 @@
-import { createDeleteTxnAction, createMarkTxnEditableAction } from '../state/txnReducer';
+import { createMarkTxnEditableAction } from '../state/txnReducer';
+import { createDelTxnActionThunk } from '../thunks/txnThunks';
 import { useDispatch } from 'react-redux';
 
 const TxnRow = ({ txn }) => {
 
     const dispatch = useDispatch();
     const editAction = createMarkTxnEditableAction(txn.id);
-    const deleteAction = createDeleteTxnAction(txn.id);
+    const deleteActionThunk = createDelTxnActionThunk(txn.id);
     
     return (
         <div className='row p-1 border-bottom border-primary'>
@@ -19,7 +20,7 @@ const TxnRow = ({ txn }) => {
                     onClick={e => dispatch(editAction)}>EDIT</button>
                 <button type="button"
                     className="btn btn-sm btn-danger"
-                    onClick={e => dispatch(deleteAction)}>DELETE</button>
+                    onClick={e => dispatch(deleteActionThunk)}>DELETE</button>
             </div>
         </div>
     );

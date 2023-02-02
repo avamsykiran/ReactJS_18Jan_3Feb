@@ -339,7 +339,7 @@ State Management using Redux
 
                const dispatch = useDispatch();
 
-            store  →-----------------------------------------------------
+            store  →----------------------------------→---------------→-
             ↑                                          |               |
             |                                          | state         | state
             |                                          ↓               ↓ 
@@ -403,7 +403,6 @@ redux-thunk
     thunk?      is a function that returns another function.
 
     in redux-thunk, action can be an object or action can be a function.
-
     
             store  →-----------------------------------------------------
             ↑                                          |               |
@@ -425,13 +424,15 @@ redux-thunk
             |←-----reducer ←-|               dispatch(actionFunction)-←|
                              |                              |
                              |                              |
-                             |                             |---------------------------------|
-                             |←-- dispatch(waitActionObj)-←|  1. inform the comp to wait     |
-                             |                             |  2. raise a axios req           |
-                             |←-- dispatch(dataActionObj)-←|  3. recieve data                | 
-                             |                             |         or                      |
-                             |←-- dispatch(errActionObj)--←|    receive error                |
-                                                           |---------------------------------|
+                             |                             redux-thunk
+                             |                              |
+                             |                              |---------------------------------|
+                             |←-- dispatch(waitActionObj)--←|  1. inform the comp to wait     |
+                             |                              |  2. raise a axios req           |
+                             |←-- dispatch(dataActionObj)--←|  3. recieve data                | 
+                             |                              |         or                      |
+                             |←-- dispatch(errActionObj)--←-|    receive error                |
+                                                            |---------------------------------|
 
     React Routing
     ------------------------------------------------------------------------
@@ -483,6 +484,9 @@ redux-thunk
                     </BrowserRouter>
                     
                     <Redirect to="targetUrl" />    
+
+                    useParams()     hook used for retriving url-params:
+                                        const { paramName } = useParams();
                             
 
 
