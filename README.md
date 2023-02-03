@@ -437,7 +437,7 @@ redux-thunk
     React Routing
     ------------------------------------------------------------------------
 
-        npm install --save react-router react-router-dom
+        npm install --save react-router react-router-dom 
 
             react-router-dom v5
 
@@ -480,13 +480,14 @@ redux-thunk
                             <Route path="/home" element={<C4 />} />
                             <Route path="/about" element={<C5 />} />
                             <Route path="/contact" element={<C6 />} />
+                            <Route path="/shoppingCart/:cid" element={<C6 />} />
                         </Routes>
                     </BrowserRouter>
                     
-                    <Redirect to="targetUrl" />    
+                    <Navigate to="targetUrl" />    
 
                     useParams()     hook used for retriving url-params:
-                                        const { paramName } = useParams();
+                                        const { cid } = useParams();
                             
 
 

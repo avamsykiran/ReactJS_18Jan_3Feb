@@ -1,0 +1,30 @@
+{
+  "accounts": [
+    {
+      "id": 1,
+      "fullName": "Vamsy Kiran Aripaka",
+      "mailId": "vamsy@gmail.com"
+    },
+    {
+      "id": 2,
+      "fullName": "Sagar Guru Charan",
+      "mailId": "sagar@gmail.com"
+    }
+  ],
+  "txns": [
+    {
+      "id": 1,
+      "header": "Salary",
+      "type": "CREDIT",
+      "amount": 56790,
+      "accountId": 1
+    },
+    {
+      "id": 2,
+      "header": "Rent",
+      "type": "DEBIT",
+      "amount": 4000,
+      "accountId": "1"
+    }
+  ]
+}
